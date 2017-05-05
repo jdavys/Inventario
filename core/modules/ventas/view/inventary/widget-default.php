@@ -11,26 +11,46 @@
 </div>
 		<h1><i class="glyphicon glyphicon-stats"></i> Inventario de Productos</h1>
 		<div class="clearfix"></div>
+		<p><b>Buscar producto por nombre o por codigo:</b></p>
+			<form>
+			<div class="row">
+				<div class="col-md-6">
+					<input type="hidden" name="view" value="inventary">
+					<input type="text" name="product" class="form-control">
+				</div>
+				<div class="col-md-3">
+				<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+				</div>
+			</div>
+			</form>
+
 
 
 <?php
+
+
 $page = 1;
 if(isset($_GET["page"])){
 	$page=$_GET["page"];
 }
-$limit=10;
+$limit=50;
 if(isset($_GET["limit"]) && $_GET["limit"]!="" && $_GET["limit"]!=$limit){
 	$limit=$_GET["limit"];
 }
-$products = ProductData::getAll();
+if(isset($_GET["product"])){
+		$products = ProductData::getLike($_GET["product"]);
+		$curr_products=$products;
+}else{
+	$products = ProductData::getAll();
+	if($page==1){
+	$curr_products = ProductData::getAllByPage($products[0]->id,$limit);
+	}else{
+	$curr_products = ProductData::getAllByPage($products[($page-1)*$limit]->id,$limit);
+
+	}
+} 
 if(count($products)>0){
 
-if($page==1){
-$curr_products = ProductData::getAllByPage($products[0]->id,$limit);
-}else{
-$curr_products = ProductData::getAllByPage($products[($page-1)*$limit]->id,$limit);
-
-}
 $npaginas = floor(count($products)/$limit);
  $spaginas = count($products)%$limit;
 
@@ -60,10 +80,19 @@ if($px<=$npaginas):
 		<th>Codigo</th>
 		<th>Nombre</th>
 		<th>Disponible</th>
+		<th>Bodega</th>
 		<th></th>
 	</thead>
 	<?php foreach($curr_products as $product):
-	$q=OperationData::getQYesF($product->id);
+
+	$q=OperationData::getQYesF($product->id);//cantidad existente
+	
+	$bod=OperationData::getBods($product->id);//bodega
+	$b=OperationData::getBodega($bod);
+	
+	
+	
+
 	?>
 	<tr class="<?php if($q<=$product->inventary_min/2){ echo "danger";}else if($q<=$product->inventary_min){ echo "warning";}?>">
 		<td><?php echo $product->id; ?></td>
@@ -71,6 +100,11 @@ if($px<=$npaginas):
 		<td>
 			
 			<?php echo $q; ?>
+
+		</td>
+		<td>
+			
+			<?php echo $b->name ?>
 
 		</td>
 		<td style="width:93px;">

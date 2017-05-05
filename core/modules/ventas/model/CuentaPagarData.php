@@ -1,30 +1,34 @@
 <?php
-class OperationData {
-	public static $tablename = "operation";
+class CuentaPagar {
+	public static $tablename = "cuenta_pagar";
 
-	public function OperationData(){
-		$this->name = "";
-		$this->product_id = "";
-		$this->q = "";
-		$this->bodega_id = "";
-		$this->cut_id = "";
-		$this->operation_type_id = "";
-		$this->created_at = "NOW()";
+	public function CuentaPagar(){
+		$this->id_prove = "";
+		$this->id_compra = "";
+		$this->num_fact = "";
+		$this->fecha = "";
+		$this->fecha_vence = "";
+		$this->monto_inicial = "";
+		$this->saldo_fact = "";
+		$this->sal_glo_d="0";
+		$this->sal_glo_c="0";
+		$this->moneda="";
+		$this->tipoP="";
 	}
 
 	public function add(){
-		$sql = "insert into ".self::$tablename." (product_id,q,operation_type_id,sell_id,created_at,bodega_id) ";
-		$sql .= "value (\"$this->product_id\",\"$this->q\",$this->operation_type_id,$this->sell_id,$this->created_at,\"$this->bodega_id\")";
+		$sql = "insert into ".self::$tablename." (id_proveedor,id_compra,num_factura,fecha,fecha_vence,monto_inicial,saldo_factura,saldo_global_c,saldo_global_d,moneda,tipo_pago) ";
+		$sql .= "value ($this->id_prove,$this->id_compra,'$this->num_fact','$this->fecha','$this->fecha_vence',$this->monto_inicial,$this->saldo_fact,$this->sal_glo_d,$this->sal_glo_c,'$this->moneda','$this->tipoP')";
 		//return $sql;
 		return Executor::doit($sql);
 	}
 
 	public static function delById($id){
-		$sql = "delete from ".self::$tablename." where id=$id";
+		$sql = "delete from ".self::$tablename." where num_factura='{$id}'";
 		Executor::doit($sql);
 	}
 	public function del(){
-		$sql = "delete from ".self::$tablename." where id=$this->id";
+		$sql = "delete from ".self::$tablename." where num_fact=$this->num_fact";
 		Executor::doit($sql);
 	}
 
@@ -32,6 +36,41 @@ class OperationData {
 	public function update(){
 		$sql = "update ".self::$tablename." set product_id=\"$this->product_id\",q=\"$this->q\" where id=$this->id";
 		Executor::doit($sql);
+	}
+
+	public function updateSaldoG($id){
+		$saldoGC=self::getByIdProveC($id);
+		$saldoGD=self::getByIdProveD($id);
+		$sql = "update ".self::$tablename." set saldo_global_c=$saldoGC,saldo_global_d=$saldoGD where id_proveedor=$id";
+		Executor::doit($sql);
+		//return $sql;
+	}
+
+
+	public static function getByIdProveC($id){
+		$saldoG=0;
+		$sql = "select * from ".self::$tablename." where id_proveedor=$id and tipo_pago='Credito' and moneda='Colones'";
+		$query = Executor::doit($sql);
+		
+		while($r = $query[0]->fetch_array()){
+			
+			$saldoG += $r['saldo_factura'];
+			
+		}
+		return $saldoG;
+	}
+
+	public static function getByIdProveD($id){
+		$saldoD=0;
+		$sql = "select * from ".self::$tablename." where id_proveedor={$id} and tipo_pago='Credito' and moneda='Dolares'";
+		$query = Executor::doit($sql);
+		
+		while($r = $query[0]->fetch_array()){
+			
+			$saldoD += $r['saldo_factura'];
+			
+		}
+		return $saldoD;
 	}
 
 	public static function getById($id){

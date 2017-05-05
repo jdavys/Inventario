@@ -9,12 +9,16 @@ class PersonData {
 		$this->email = "";
 		$this->image = "";
 		$this->password = "";
+		$this->tipoCliente = "";
+		$this->comision = "";
 		$this->created_at = "NOW()";
 	}
 
+	public function getAgente(){ return AgenteData::getById($this->agente_id);}
+
 	public function add_client(){
-		$sql = "insert into person (name,lastname,address1,email1,phone1,kind,created_at) ";
-		$sql .= "value (\"$this->name\",\"$this->lastname\",\"$this->address1\",\"$this->email1\",\"$this->phone1\",1,$this->created_at)";
+		$sql = "insert into person (name,address1,email1,phone1,kind,created_at,agente,comision,tipo_cliente) ";
+		$sql .= "value (\"$this->name\",\"$this->address1\",\"$this->email1\",\"$this->phone1\",1,$this->created_at,$this->agente_id,$this->comision,\"$this->tipoCliente\")";
 		Executor::doit($sql);
 	}
 
@@ -40,7 +44,8 @@ class PersonData {
 	}
 
 	public function update_client(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\",email1=\"$this->email1\",address1=\"$this->address1\",lastname=\"$this->lastname\",phone1=\"$this->phone1\" where id=$this->id";
+		$sql = "update ".self::$tablename." set name=\"$this->name\",email1=\"$this->email1\",address1=\"$this->address1\",lastname=\"$this->lastname\",phone1=\"$this->phone1\",
+		agente=\"$this->agente_id\",comision=$this->comision,tipo_cliente=\"$this->tipoCliente\" where id=$this->id";
 		Executor::doit($sql);
 	}
 
@@ -68,6 +73,9 @@ class PersonData {
 			$data->phone1 = $r['phone1'];
 			$data->email1 = $r['email1'];
 			$data->created_at = $r['created_at'];
+			$data->agente_id = $r['agente'];
+			$data->tipoCliente = $r['tipo_cliente'];
+			$data->comision = $r['comision'];
 			$found = $data;
 			break;
 		}
@@ -85,7 +93,6 @@ class PersonData {
 			$array[$cnt] = new PersonData();
 			$array[$cnt]->id = $r['id'];
 			$array[$cnt]->name = $r['name'];
-			$array[$cnt]->lastname = $r['lastname'];
 			$array[$cnt]->email = $r['email1'];
 			$array[$cnt]->username = $r['username'];
 			$array[$cnt]->phone1 = $r['phone1'];
@@ -97,7 +104,7 @@ class PersonData {
 	}
 
 	public static function getClients(){
-		$sql = "select * from ".self::$tablename." where kind=1 order by name,lastname";
+		$sql = "select * from ".self::$tablename." where kind=1 order by name";
 		$query = Executor::doit($sql);
 		$array = array();
 		$cnt = 0;
@@ -110,6 +117,8 @@ class PersonData {
 			$array[$cnt]->phone1 = $r['phone1'];
 			$array[$cnt]->address1 = $r['address1'];
 			$array[$cnt]->created_at = $r['created_at'];
+			$array[$cnt]->agente_id = $r['agente'];
+			$array[$cnt]->tipoCliente = $r['tipo_cliente'];
 			$cnt++;
 		}
 		return $array;
@@ -144,8 +153,13 @@ class PersonData {
 			$array[$cnt] = new PersonData();
 			$array[$cnt]->id = $r['id'];
 			$array[$cnt]->name = $r['name'];
-			$array[$cnt]->mail = $r['mail'];
+			$array[$cnt]->lastname = $r['lastname'];
+			$array[$cnt]->email1 = $r['email1'];
+			$array[$cnt]->phone1 = $r['phone1'];
+			$array[$cnt]->address1 = $r['address1'];
 			$array[$cnt]->created_at = $r['created_at'];
+			$array[$cnt]->agente_id = $r['agente'];
+			$array[$cnt]->tipoCliente = $r['tipo_cliente'];
 			$cnt++;
 		}
 		return $array;

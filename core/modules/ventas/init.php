@@ -15,6 +15,11 @@ include "core/modules/".Module::$module."/model/ConfigurationData.php";
 include "core/modules/".Module::$module."/model/PersonData.php";
 include "core/modules/".Module::$module."/model/CategoryData.php";
 include "core/modules/".Module::$module."/model/BoxData.php";
+include "core/modules/".Module::$module."/model/PresentaData.php";
+include "core/modules/".Module::$module."/model/BodegaData.php";
+include "core/modules/".Module::$module."/model/AgenteData.php";
+include "core/modules/".Module::$module."/model/CuentaPagarData.php";
+
 
 session_start();
 ob_start();

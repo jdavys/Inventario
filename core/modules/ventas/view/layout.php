@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>.: Inventio Lite :.</title>
+    <title>Neo Inventario </title>
 
     <!-- Bootstrap core CSS -->
     <link href="res/bootstrap3/css/bootstrap.css" rel="stylesheet">
@@ -32,7 +32,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./">Inventio Lite <sup><small><span class="label label-danger">v1.8</span></small></sup> </a>
+          <!--<sup><small><span class="label label-danger">v1.8</span></small></sup>-->
+          <a class="navbar-brand" href="./">Neo Inventario </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,14 +47,17 @@ if(Session::getUID()!=""):
           <li><a href="index.php?view=home"><i class="fa fa-home"></i> Inicio</a></li>
           <li><a href="index.php?view=sell"><i class="fa fa-usd"></i> Vender</a></li>
           <li><a href="index.php?view=sells"><i class="fa fa-shopping-cart"></i> Ventas</a></li>
-          <li><a href="index.php?view=box"><i class="fa fa-archive"></i> Caja <small><span class="label label-success">Nuevo</span></small></a></li>
+          <!--<small><span class="label label-success">Nuevo</span></small>-->
+          <li><a href="index.php?view=box"><i class="fa fa-archive"></i> Caja </a></li>
           <li><a href="index.php?view=products"><i class="fa fa-glass"></i> Productos</a></li>
           <li><a href="index.php?view=categories"><i class="fa fa-th-list"></i> Categorias </a></li>
+          <li><a href="index.php?view=presentations"><i class="fa fa-th-list"></i> Presentaciones </a></li>
+          <li><a href="index.php?view=bodegas"><i class="fa fa-th-list"></i> Bodegas </a></li>
           <li><a href="index.php?view=clients"><i class="fa fa-smile-o"></i> Clientes </a></li>
-          <li><a href="index.php?view=providers"><i class="fa fa-truck"></i> Proveedores <small><span class="label label-success">Nuevo</span></small></a></li>
+          <li><a href="index.php?view=providers"><i class="fa fa-truck"></i> Proveedores </a></li>
           <li><a href="index.php?view=inventary"><i class="fa fa-area-chart"></i> Inventario</a></li>
-          <li><a href="index.php?view=re"><i class="fa fa-refresh"></i> Reabastecer <small><span class="label label-success">Nuevo</span></small></a></li>
-          <li><a href="index.php?view=res"><i class="fa fa-th-list"></i> Reabastecimientos <small><span class="label label-success">Nuevo</span></small></a></li>
+          <li><a href="index.php?view=re"><i class="fa fa-refresh"></i> Reabastecer </a></li>
+          <li><a href="index.php?view=res"><i class="fa fa-th-list"></i> Reabastecimientos </a></li>
           <li><a href="index.php?view=reports"><i class="fa fa-tasks"></i> Reportes</a></li>
           <?php if($u->is_admin):?>
           <li><a href="index.php?view=users"><i class="fa fa-users"></i> Usuarios </a></li>

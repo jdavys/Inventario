@@ -13,9 +13,25 @@
 </div>
 		<h1>Lista de Productos</h1>
 		<div class="clearfix"></div>
+		<p><b>Buscar producto por nombre o por codigo:</b></p>
+			<form>
+			<div class="row">
+				<div class="col-md-6">
+					<input type="hidden" name="view" value="products">
+					<input type="text" name="product" class="form-control">
+				</div>
+				<div class="col-md-3">
+				<button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+				</div>
+			</div>
+			</form>
+		</div>
 
 
 <?php
+
+ 
+
 $page = 1;
 if(isset($_GET["page"])){
 	$page=$_GET["page"];
@@ -25,17 +41,24 @@ if(isset($_GET["limit"]) && $_GET["limit"]!="" && $_GET["limit"]!=$limit){
 	$limit=$_GET["limit"];
 }
 
-$products = ProductData::getAll();
+if(isset($_GET["product"])){
+		$products = ProductData::getLike($_GET["product"]);
+		$curr_products=$products;
+}else{
+	$products = ProductData::getAll();
+	if($page==1){
+	$curr_products = ProductData::getAllByPage($products[0]->id,$limit);
+	}else{
+	$curr_products = ProductData::getAllByPage($products[($page-1)*$limit]->id,$limit);
+
+	}
+} 
+	
 if(count($products)>0){
 
-if($page==1){
-$curr_products = ProductData::getAllByPage($products[0]->id,$limit);
-}else{
-$curr_products = ProductData::getAllByPage($products[($page-1)*$limit]->id,$limit);
 
-}
 $npaginas = floor(count($products)/$limit);
- $spaginas = count($products)%$limit;
+$spaginas = count($products)%$limit;
 
 if($spaginas>0){ $npaginas++;}
 

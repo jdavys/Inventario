@@ -27,7 +27,10 @@ if(count($products)>0){
 
 <?php
 $operations = OperationData::getAllProductsBySellId($sell->id);
-echo count($operations);
+
+echo $operations[0]->product_id;
+//print_r($operation);
+
 ?>
 		<td>
 

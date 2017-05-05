@@ -1,5 +1,8 @@
     <?php 
 $categories = CategoryData::getAll();
+$presentas = PresentaData::getAll();
+$bodegas = BodegaData::getAll();
+
     ?>
 <div class="row">
 	<div class="col-md-12">
@@ -54,13 +57,26 @@ $categories = CategoryData::getAll();
       <input type="text" name="unit" required class="form-control" id="unit" placeholder="Unidad del Producto">
     </div>
   </div>
-
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Presentacion</label>
     <div class="col-md-6">
-      <input type="text" name="presentation" class="form-control" id="inputEmail1" placeholder="Presentacion del Producto">
-    </div>
+    <select name="presentation_id" class="form-control">
+    <option value="">-- NINGUNA --</option>
+    <?php foreach($presentas as $presenta):?>
+      <option value="<?php echo $presenta->id;?>"><?php echo $presenta->name;?></option>
+    <?php endforeach;?>
+      </select>    </div>
   </div>
+ <div class="form-group">
+     <label for="inputEmail1" class="col-lg-2 control-label">Bodega</label>
+     <div class="col-md-6">
+     <select name="bodega_id" class="form-control">
+     <option value="">-- NINGUNA --</option>
+     <?php foreach($bodegas as $bodega):?>
+       <option value="<?php echo $bodega->id;?>"><?php echo $bodega->name;?></option>
+     <?php endforeach;?>
+       </select>    </div>
+   </div>
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Minima en inventario:</label>
     <div class="col-md-6">

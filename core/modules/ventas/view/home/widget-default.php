@@ -22,7 +22,7 @@ foreach($products as $product){
   </ul>
 </div>
 <?php endif;?>
-		<h1>Inventio Lite</h1>
+		<h1>Neo Inventario</h1>
 
 
 <?php
@@ -30,7 +30,7 @@ $page = 1;
 if(isset($_GET["page"])){
 	$page=$_GET["page"];
 }
-$limit=10;
+$limit=50;
 if(isset($_GET["limit"]) && $_GET["limit"]!="" && $_GET["limit"]!=$limit){
 	$limit=$_GET["limit"];
 }

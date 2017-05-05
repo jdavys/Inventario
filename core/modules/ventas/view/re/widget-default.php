@@ -38,7 +38,7 @@ $q= OperationData::getQYesF($product->id);
 	?>
 		<form method="post" action="index.php?view=addtore">
 	<tr class="<?php if($q<=$product->inventary_min){ echo "danger"; }?>">
-		<td style="width:80px;"><?php echo $product->id; ?></td>
+		<td style="width:70px;"><?php echo $product->id; ?></td>
 		<td><?php echo $product->name; ?></td>
 		<td><?php echo $product->unit; ?></td>
 		<td><b>$<?php echo $product->price_in; ?></b></td>
@@ -102,8 +102,8 @@ $total = 0;
 	<th style="width:30px;">Cantidad</th>
 	<th style="width:30px;">Unidad</th>
 	<th>Producto</th>
-	<th style="width:30px;">Precio Unitario</th>
-	<th style="width:30px;">Precio Total</th>
+	<th style="width:100px;">Precio Unitario</th>
+	<th style="width:100px;">Precio Total</th>
 	<th ></th>
 </thead>
 <?php foreach($_SESSION["reabastecer"] as $p):
@@ -124,67 +124,94 @@ $product = ProductData::getById($p["product_id"]);
 <form method="post" class="form-horizontal" id="processsell" action="index.php?view=processre">
 <h2>Resumen</h2>
 <div class="form-group">
-    <label for="inputEmail1" class="col-lg-2 control-label">Proveedor</label>
-    <div class="col-lg-10">
-    <?php 
-$clients = PersonData::getProviders();
-    ?>
-    <select name="client_id" class="form-control">
-    <option value="">-- NINGUNO --</option>
-    <?php foreach($clients as $client):?>
-    	<option value="<?php echo $client->id;?>"><?php echo $client->name." ".$client->lastname;?></option>
-    <?php endforeach;?>
+    <label for="inputProveedor" class="col-lg-2 control-label">Proveedor</label>
+    <div class="col-lg-5">
+    	<?php $clients = PersonData::getProviders();  ?>
+    	<select name="client_id" class="form-control">
+    		<option value="">-- NINGUNO --</option>
+    		<?php foreach($clients as $client):?>
+    		<option value="<?php echo $client->id;?>"><?php echo $client->name." ".$client->lastname;?></option>
+    		<?php endforeach;?>
     	</select>
     </div>
-  </div>
-<div class="form-group">
-    <label for="inputEmail1" class="col-lg-2 control-label">Efectivo</label>
-    <div class="col-lg-10">
-      <input type="text" name="money" required class="form-control" id="money" placeholder="Efectivo">
+    <label for="num_fact" class="col-lg-1 control-label">Factura</label>
+    <div class="col-lg-2">
+      <input type="text" name="num_fact" required class="form-control" id="num_fact" placeholder="N° Factura">
     </div>
-  </div>
-  <div class="row">
-<div class="col-md-6 col-md-offset-6">
-<table class="table table-bordered">
-<tr>
-	<td><p>Subtotal</p></td>
-	<td><p><b>$ <?php echo number_format($total*.84); ?></b></p></td>
-</tr>
-<tr>
-	<td><p>IVA</p></td>
-	<td><p><b>$ <?php echo number_format($total*.16); ?></b></p></td>
-</tr>
-<tr>
-	<td><p>Total</p></td>
-	<td><p><b>$ <?php echo number_format($total); ?></b></p></td>
-</tr>
+    </br></br>
+    <label for="TipoPago" class="col-lg-2 control-label">Forma de Pago</label>
+    <div class="col-lg-2">
+       	<select name="tipoP" class="form-control">
+    		<option value="Contado">Contado</option>
+       		<option value="Credito">Credito</option>
+     	</select>
+    </div>
+    <label for="Moneda" class="col-lg-1 control-label">Moneda</label>
+    <div class="col-lg-2">
+       	<select name="moneda" class="form-control">
+    		<option value="Colones">Colones</option>
+       		<option value="Dolares">Dolares</option>
+     	</select>
+    </div>
+    <label for="Plazo" class="col-lg-1 control-label">Plazo</label>
+    <div class="col-lg-2">
+       	<input type="text" id="plazo" name="plazo" class="form-control" value="60" />
+    </div>
+             
+             
+</div>
+<div class="form-group">
+    <label for="money" class="col-lg-2 control-label">Efectivo</label>
+    <div class="col-lg-2">
+      <input type="text" name="money" required class="form-control" id="money" placeholder="Efectivo" value="<?php echo $total;?>">
+    </div>
+    <label for="fecha" class="col-lg-1 control-label">Fecha</label>
+    <div class="col-lg-2">
+      <input type="date" name="fecha" required class="form-control" id="fecha" placeholder="FECHA">
+    </div>
+</div>
 
-</table>
-  <div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-      <div class="checkbox">
-        <label>
-          <input name="is_oficial" type="hidden" value="1">
-        </label>
-      </div>
-    </div>
-  </div>
-<div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-      <div class="checkbox">
-        <label>
-		<a href="index.php?view=clearre" class="btn btn-lg btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancelar</a>
-        <button class="btn btn-lg btn-primary"><i class="fa fa-refresh"></i> Procesar Reabastecimiento</button>
-        </label>
-      </div>
-    </div>
-  </div>
+<div class="row">
+	<div class="col-md-6 col-md-offset-6">
+	<table class="table table-bordered">
+		<tr>
+			<td><p>Subtotal</p></td>
+			<td><p><b>$ <?php echo number_format($total*.87); ?></b></p></td>
+		</tr>
+		<tr>
+			<td><p>IVA</p></td>
+			<td><p><b>$ <?php echo number_format($total*.13); ?></b></p></td>
+		</tr>
+		<tr>
+			<td><p>Total</p></td>
+			<td><p><b>$ <?php echo number_format($total); ?></b></p></td>
+		</tr>
+
+	</table>
+  	<div class="form-group">
+    	<div class="col-lg-offset-2 col-lg-10">
+      		<div class="checkbox">
+   		     	<label>
+        	  		<input name="is_oficial" type="hidden" value="1">
+        		</label>
+      		</div>
+    	</div>
+  	</div>
+	<div class="form-group">
+    	<div class="col-lg-offset-2 col-lg-10">
+      	<div class="checkbox">
+        	<label>
+				<a href="index.php?view=clearre" class="btn btn-lg btn-danger"><i class="glyphicon glyphicon-remove"></i> Cancelar</a>
+        		<button class="btn btn-lg btn-primary"><i class="fa fa-refresh"></i> Procesar Reabastecimiento</button>
+        	</label>
+      	</div>
+    	</div>
+  	</div>
 </form>
 <script>
 	$("#processsell").submit(function(e){
-		money = $("#money").val();
 		if(money<<?php echo $total;?>){
-			alert("No se puede efectuar la operacion");
+			alert("No se puede efectuar la o");
 			e.preventDefault();
 		}else{
 			go = confirm("Cambio: $"+(money-<?php echo $total;?>));

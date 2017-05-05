@@ -9,7 +9,9 @@ if(count($_POST)>0){
 	$product->unit = $_POST["unit"];
 
   $product->description = $_POST["description"];
-  $product->presentation = $_POST["presentation"];
+  $presenta="NULL";
+  if($_POST["presentation_id"]!=""){ $presenta=$_POST["presentation_id"];}
+  
   $product->inventary_min = $_POST["inventary_min"];
   $category_id="NULL";
   if($_POST["category_id"]!=""){ $category_id=$_POST["category_id"];}
@@ -19,10 +21,11 @@ if(count($_POST)>0){
 
   $product->is_active=$is_active;
   $product->category_id=$category_id;
+  $product->presentation_id = $presenta;
 
 	$product->user_id = Session::getUID();
 	$product->update();
-
+	//print_r($product);
 	if(isset($_FILES["image"])){
 		$image = new Upload($_FILES["image"]);
 		if($image->uploaded){

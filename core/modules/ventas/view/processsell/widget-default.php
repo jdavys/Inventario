@@ -74,6 +74,7 @@ $_SESSION["errors"] = $errors;
 			 $op->operation_type_id=OperationTypeData::getByName("salida")->id;
 			 $op->sell_id=$s[1];
 			 $op->q= $c["q"];
+			 $op->bodega_id=1; //la virgen
 
 			if(isset($_POST["is_oficial"])){
 				$op->is_oficial = 1;

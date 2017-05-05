@@ -50,7 +50,7 @@ class SellData {
 	}
 
 	public static function getById($id){
-		 $sql = "select * from ".self::$tablename." where id=$id";
+		$sql = "select * from ".self::$tablename." where id=$id";
 		$query = Executor::doit($sql);
 		$found = null;
 		$data = new SellData();
@@ -59,6 +59,19 @@ class SellData {
 			$data->user_id = $r['user_id'];
 			$data->person_id = $r['person_id'];
 			$data->created_at = $r['created_at'];
+			$found = $data;
+			break;
+		}
+		return $found;
+	}
+
+	public static function getSellId(){
+		$sql = "select max(id) from ".self::$tablename;
+		$query = Executor::doit($sql);
+		$found = null;
+		$data = new SellData();
+		while($r = $query[0]->fetch_array()){
+			$data->id = $r['id'];
 			$found = $data;
 			break;
 		}

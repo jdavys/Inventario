@@ -1,6 +1,7 @@
 <?php
 $product = ProductData::getById($_GET["id"]);
 $categories = CategoryData::getAll();
+$presentations = PresentaData::getAll();
 
 if($product!=null):
 ?>
@@ -69,8 +70,12 @@ if($product!=null):
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-3 control-label">Presentacion</label>
     <div class="col-md-8">
-      <input type="text" name="presentation" class="form-control" id="inputEmail1" value="<?php echo $product->presentation; ?>" placeholder="Presentacion del Producto">
-    </div>
+    <select name="presentation_id" class="form-control">
+    <option value="">-- NINGUNA --</option>
+    <?php foreach($presentations as $presenta):?>
+      <option value="<?php echo $presenta->id;?>" <?php if($product->presentation_id!=null&& $product->presentation_id==$presenta->id){ echo "selected";}?>><?php echo $presenta->name;?></option>
+    <?php endforeach;?>
+      </select> </div>
   </div>
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-3 control-label">Minima en inventario:</label>
